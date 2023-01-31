@@ -1,7 +1,8 @@
 import discord
+import mykeys
+from commands import BotCommands
 
-
-my_secret_key = 'my_secret_key'
+my_secret_key = mykeys.secret_key
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -16,10 +17,11 @@ ask_for_role = False
 
 @bot.event
 async def on_ready():
-    global roles
+    global roles, BotCommands
     roles = [role.name for role in bot.guilds[0].roles]
     print(f'{bot.user} is online!')
     print(f'Roles: {roles}')
+    print(f'Commands: {BotCommands}')
 
 
 @bot.event
@@ -51,6 +53,7 @@ async def on_message(msg):
         if role:
             await msg.author.add_roles(role)
             await msg.channel.send(f'You are now a {role.name}!')
+        elif
         else:
             await msg.channel.send(f'Role {msg.content} does not exist!')
     return
@@ -58,11 +61,9 @@ async def on_message(msg):
 
 @bot.event
 async def who(msg):
+    global BotCommands
     if msg.content.startswith(command):
-        await msg.channel.send("Du bist hier auf TheMo!")
-    else:
-        await msg.channel.send(
-            f'{msg.content} ist kein gültiger Befehl!\nBitte benutze {command} um mit mir zu reden.')
+        await msg.channel.send(f'Du bist hier auf TheMo!\nFolgende Eingaben sind erlaubt {BotCommands}')
 
 
 @bot.event
